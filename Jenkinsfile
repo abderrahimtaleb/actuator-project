@@ -23,6 +23,27 @@ pipeline {
         }
       }
     }
+    stage('build') {
+            steps {
+                timeout(time : 1, unit : 'MINUTES'){
+                    retry(5){
+                          sh 'mvn install clean -DskipTests'
+                          sh 'mvn compile'
+                      }
+                    }
+
+            }
+        }
+        stage('Test') {
+                    steps {
+                        sh 'mvn clean test'
+                        sh 'mvn surefire-report:report'
+                    }
+                }
+        stage('package'){
+                    steps {
+                           sh 'mvn clean package'
+    }
     stage(’Build Image’) {
       steps {
         script {
