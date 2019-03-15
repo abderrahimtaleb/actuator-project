@@ -6,7 +6,7 @@ pipeline {
     PROJECT_NAME='myproject'
     DOMAIN='mydomain.com'
     STACK='mystack'
-    DOCKER_REGISTRY=’https://registry.hub.docker.com'
+    DOCKER_REGISTRY='https://registry.hub.docker.com'
     CONTAINER='vendor/app'
     VERSION="1.${BUILD_NUMBER}"
   }
