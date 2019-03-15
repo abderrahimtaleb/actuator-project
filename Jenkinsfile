@@ -15,10 +15,10 @@ pipeline {
       steps {
         sshagent (['jenkins']) {
             script {
-                sh '’'
+                sh '''
                     git tag -a "v${VERSION}" -m "Jenkins"
                     git push origin "v${VERSION}" -vvv
-                '’'
+                '''
             }
         }
       }
@@ -59,15 +59,15 @@ pipeline {
       steps {
           withCredentials([
               usernamePassword(
-                  credentialsId: 'docker-registry-credentials’,
-                  usernameVariable: 'DOCKER_USER’,
+                  credentialsId: 'docker-registry-credentials',
+                  usernameVariable: 'DOCKER_USER',
                   passwordVariable: 'DOCKER_PASSWORD'
               )
           ])
           {
             script {
                 echo "Deploying Container Stack to Docker Cluster"
-                sh "ansible-playbook -i devops/inventories/manager1/hosts devops/manager1.yml --extra-vars=\"{’WORKSPACE’: '${env.WORKSPACE}’, 'DOMAIN’: '${env.DOMAIN}’, 'PROJECT’: '${env.PROJECT}’, 'STACK’: '${env.STACK}’, 'VERSION’: '${env.VERSION}’, 'DOCKER_REGISTRY’: '${env.DOCKER_REGISTRY}’, 'DOCKER_USER’: '${env.DOCKER_USER}’, 'DOCKER_PASSWORD’: '${env.DOCKER_PASSWORD}’}\" -vvv"
+                sh "ansible-playbook -i devops/inventories/manager1/hosts devops/manager1.yml --extra-vars=\"{'WORKSPACE': '${env.WORKSPACE}', 'DOMAIN': '${env.DOMAIN}', 'PROJECT': '${env.PROJECT}', 'STACK': '${env.STACK}', 'VERSION': '${env.VERSION}', 'DOCKER_REGISTRY': '${env.DOCKER_REGISTRY}', 'DOCKER_USER': '${env.DOCKER_USER}', 'DOCKER_PASSWORD': '${env.DOCKER_PASSWORD}'}\" -vvv"
             }
           }
       }
