@@ -4,16 +4,16 @@ pipeline {
 
   environment {
     PROJECT_NAME='myproject'
-    DOMAIN=’mydomain.com'
-    STACK=’mystack'
+    DOMAIN='mydomain.com'
+    STACK='mystack'
     DOCKER_REGISTRY=’https://registry.hub.docker.com'
-    CONTAINER=’vendor/app'
+    CONTAINER='vendor/app'
     VERSION="1.${BUILD_NUMBER}"
   }
   stages {
-    stage(’Tag Git Commit’) {
+    stage('Tag Git Commit') {
       steps {
-        sshagent ([’jenkins’]) {
+        sshagent (['jenkins']) {
             script {
                 sh '’'
                     git tag -a "v${VERSION}" -m "Jenkins"
@@ -44,10 +44,10 @@ pipeline {
                     steps {
                            sh 'mvn clean package'
     }
-    stage(’Build Image’) {
+    stage('Build Image') {
       steps {
         script {
-            docker.withRegistry("${DOCKER_REGISTRY}", 'docker-registry-credentials’) {
+            docker.withRegistry("${DOCKER_REGISTRY}", 'docker-registry-credentials') {
                 def img = docker.build("${CONTAINER}:${VERSION}")
                 img.push()
                 sh "docker rmi ${img.id}"
@@ -55,7 +55,7 @@ pipeline {
         }
       }
     }
-    stage(’Deploy Stack’) {
+    stage('Deploy Stack') {
       steps {
           withCredentials([
               usernamePassword(
