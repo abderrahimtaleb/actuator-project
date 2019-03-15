@@ -11,18 +11,6 @@ pipeline {
     VERSION="1.${BUILD_NUMBER}"
   }
   stages {
-    stage('Tag Git Commit') {
-      steps {
-        sshagent (['jenkins']) {
-            script {
-                sh '''
-                    git tag -a "v${VERSION}" -m "Jenkins"
-                    git push origin "v${VERSION}" -vvv
-                '''
-            }
-        }
-      }
-    }
     stage('build') {
             steps {
                 timeout(time : 1, unit : 'MINUTES'){
@@ -37,7 +25,6 @@ pipeline {
         stage('Test') {
                     steps {
                         sh 'mvn clean test'
-                        sh 'mvn surefire-report:report'
                     }
                 }
         stage('package'){
