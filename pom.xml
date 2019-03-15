@@ -52,7 +52,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.2.0</version>
 				<configuration>
-					<dockerHost>http://54.185.3.48:4243</dockerHost>
+					<dockerHost>http://54.185.193.176:4243</dockerHost>
 					<imageName>jenkins-test</imageName>
 					<baseImage>java</baseImage>
 					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
